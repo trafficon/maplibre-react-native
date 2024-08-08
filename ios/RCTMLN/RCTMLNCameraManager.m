@@ -25,6 +25,7 @@ RCT_EXPORT_VIEW_PROPERTY(followUserMode, NSString)
 RCT_EXPORT_VIEW_PROPERTY(followZoomLevel, NSNumber)
 RCT_EXPORT_VIEW_PROPERTY(followPitch, NSNumber)
 RCT_EXPORT_VIEW_PROPERTY(followHeading, NSNumber)
+RCT_EXPORT_VIEW_PROPERTY(followPadding, NSDictionary)
 
 RCT_EXPORT_VIEW_PROPERTY(alignment, NSString)
 

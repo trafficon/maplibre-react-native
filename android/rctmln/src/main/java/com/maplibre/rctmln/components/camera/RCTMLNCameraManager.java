@@ -98,4 +98,8 @@ public class RCTMLNCameraManager extends AbstractEventEmitter<RCTMLNCamera> {
         camera.setFollowPitch(value);
     }
 
+    @ReactProp(name="followPadding")
+    public void setFollowPadding(RCTMLNCamera camera, ReadableMap values) {
+        camera.setFollowPadding(values);
+    }
 }

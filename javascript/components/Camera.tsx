@@ -185,6 +185,11 @@ interface CameraProps extends Omit<ViewProps, "style">, CameraStop {
   followHeading?: number;
 
   /**
+   * The padding on map while followUserLocation is set to `true`
+   */
+  followPadding?: CameraPadding;
+
+  /**
    * Manually update the camera - helpful for when props did not update, however you still want the camera to move
    */
   triggerKey?: string | number;
@@ -434,6 +439,7 @@ const Camera = memo(
           followPitch: props.followPitch || props.pitch,
           followHeading: props.followHeading || props.heading,
           followZoomLevel: props.followZoomLevel || props.zoomLevel,
+          followPadding: props.followPadding || props.padding,
         });
       }, [
         cameraRef.current,
@@ -446,6 +452,8 @@ const Camera = memo(
         props.heading,
         props.followZoomLevel,
         props.zoomLevel,
+        props.followPadding,
+        props.padding,
       ]);
 
       const cameraConfig: CameraStop = useMemo(() => {
@@ -606,6 +614,7 @@ const Camera = memo(
           followPitch={props.followPitch}
           followHeading={props.followHeading}
           followZoomLevel={props.followZoomLevel}
+          followPadding={props.followPadding}
           stop={_createStopConfig(nativeProps)}
           maxZoomLevel={props.maxZoomLevel}
           minZoomLevel={props.minZoomLevel}

@@ -3,6 +3,7 @@ package com.maplibre.rctmln.components.camera;
 import android.content.Context;
 import android.location.Location;
 
+import com.facebook.react.bridge.ReadableMap;
 import org.maplibre.android.camera.CameraPosition;
 import org.maplibre.android.camera.CameraUpdate;
 import org.maplibre.android.camera.CameraUpdateFactory;
@@ -72,6 +73,11 @@ public class RCTMLNCamera extends AbstractMapFeature {
     private double mHeading;
     private double mPitch;
     private double mZoomLevel = -1;
+
+    private double mPaddingLeft = 0;
+    private double mPaddingRight = 0;
+    private double mPaddingTop = 0;
+    private double mPaddingBottom = 0;
 
     private double mMinZoomLevel = -1;
     private double mMaxZoomLevel = -1;
@@ -238,6 +244,7 @@ public class RCTMLNCamera extends AbstractMapFeature {
 
         return new CameraPosition.Builder()
                 .target(center)
+                .padding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom)
                 .bearing(getDirectionForUserLocationUpdate())
                 .tilt(mPitch)
                 .zoom(zoomLevel)
@@ -497,6 +504,13 @@ public class RCTMLNCamera extends AbstractMapFeature {
         }
     }
 
+    public void setFollowPadding(ReadableMap readableMap) {
+        mPaddingBottom = getPaddingByKey(readableMap,"paddingBottom");
+        mPaddingRight = getPaddingByKey(readableMap,"paddingRight");
+        mPaddingTop = getPaddingByKey(readableMap,"paddingTop");
+        mPaddingLeft = getPaddingByKey(readableMap,"paddingLeft");
+    }
+
     MapLibreMap getMapboxMap() {
         if (mMapView == null) {
             return null;
@@ -526,5 +540,10 @@ public class RCTMLNCamera extends AbstractMapFeature {
         positionProperties.putMap("coords", coords);
         positionProperties.putDouble("timestamp", location.getTime());
         return positionProperties;
+    }
+
+
+    private static double getPaddingByKey(ReadableMap map, String key) {
+        return map.hasKey(key) ? map.getDouble(key) : 0;
     }
 }

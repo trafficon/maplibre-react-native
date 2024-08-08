@@ -533,4 +533,15 @@ static double const M2PI = M_PI * 2;
     [_reactCamera didChangeUserTrackingMode:mode animated:animated];
 }
 
+- (void)setCamera:(MLNMapCamera*)camera edgePadding:(UIEdgeInsets)edgePadding animated:(BOOL)animated
+{
+    MLNMapCamera *currentCamera = self.camera;
+    if ([currentCamera isEqualToMapCamera:camera] && UIEdgeInsetsEqualToEdgeInsets(self.contentInset, edgePadding)) {
+        return;
+    }
+    
+    self.contentInset = edgePadding;
+    [self setCamera:camera animated:animated];
+}
+
 @end

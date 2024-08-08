@@ -107,6 +107,12 @@
     [self _updateCameraFromTrackingMode];
 }
 
+- (void)setFollowPadding:(NSDictionary *)followPadding
+{
+    _followPadding = followPadding;
+    [self _updateCameraFromTrackingMode];
+}
+
 - (void)_updateCameraFromJavascript
 {
     if (_stop == nil) {
@@ -211,7 +217,17 @@
         camera.altitude = [_map altitudeFromZoom:[_followZoomLevel doubleValue]];
     }
     
-    [_map setCamera:camera animated:YES];
+    UIEdgeInsets padding = UIEdgeInsetsMake(0, 0, 0, 0);
+    if (_followPadding && [_followPadding isKindOfClass:[NSDictionary class]]) {
+        CGFloat paddingTop = _followPadding[@"paddingTop"] ? [_followPadding[@"paddingTop"] floatValue] : 0.0;
+        CGFloat paddingRight = _followPadding[@"paddingRight"] ? [_followPadding[@"paddingRight"] floatValue] : 0.0;
+        CGFloat paddingBottom = _followPadding[@"paddingBottom"] ? [_followPadding[@"paddingBottom"] floatValue] : 0.0;
+        CGFloat paddingLeft = _followPadding[@"paddingLeft"] ? [_followPadding[@"paddingLeft"] floatValue] : 0.0;
+                  
+        padding = UIEdgeInsetsMake(paddingTop, paddingLeft, paddingBottom, paddingRight);
+    }
+    
+    [_map setCamera:camera edgePadding:padding animated:YES];
 }
 
 - (NSUInteger)_userTrackingMode

@@ -25,6 +25,7 @@
 @property (nonatomic, copy) NSNumber *followZoomLevel;
 @property (nonatomic, copy) NSNumber *followPitch;
 @property (nonatomic, copy) NSNumber *followHeading;
+@property (nonatomic, strong) NSDictionary *followPadding;
 
 @property (nonatomic, copy) NSNumber *maxZoomLevel;
 @property (nonatomic, copy) NSNumber *minZoomLevel;
