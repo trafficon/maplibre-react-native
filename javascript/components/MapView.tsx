@@ -19,6 +19,7 @@ import {
   ViewProps,
   NativeMethods,
   NativeSyntheticEvent,
+  LayoutChangeEvent,
 } from "react-native";
 
 import useNativeBridge from "../hooks/useNativeBridge";
@@ -229,6 +230,8 @@ interface MapViewProps extends BaseProps {
    * This event is triggered when a style has finished loading.
    */
   onDidFinishLoadingStyle?(): void;
+
+  onLayout?: (event: LayoutChangeEvent) => void;
   /**
    * The emitted frequency of regionwillchange events
    */
@@ -745,8 +748,11 @@ const MapView = memo(
         }
       };
 
-      const _onLayout = (): void => {
+      const _onLayout = (event: LayoutChangeEvent): void => {
         setIsReady(true);
+        if (props.onLayout) {
+          props.onLayout(event);
+        }
       };
 
       const _handleOnChange = <T extends CallableProps>(
@@ -800,7 +806,7 @@ const MapView = memo(
         }
       };
 
-      const nativeProps = useMemo(() => {
+      const { onLayout, ...nativeProps } = useMemo(() => {
         return {
           ...props,
           localizeLabels,
